@@ -1,6 +1,7 @@
 pragma solidity ^0.4.11;
 
 contract Election {
+    // Data structure; read values by index
     struct Candidate {
         uint id;
         string name;
