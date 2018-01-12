@@ -1,34 +1,38 @@
 pragma solidity ^0.4.2;
 
 contract Election {
-    string value;
-
     struct Candidate {
+        uint id;
         string name;
         uint voteCount;
     }
 
-    // Must keep track of vote because we'll always have a default value for voters;
-    // We don't want to do an id because we'd have to keep a counter and update it;
-    struct Voter {
-        bool voted;
-    }
+    // Ugh, do a candidates struct, and give it an ID...
 
-    // How do I make this private?
-    mapping(address => Voter) public voters;
+
+    // Keeps track that an address voted
+    mapping(address => bool) voters;
     // Gives us access to the candidates's index publicly
-    Candidate[] public candidates;
+    // You must keep track of a candidates count;
+    uint public candidatesCount;
+    mapping(uint => Candidate) public candidates;
 
     // voted event
 
+    // We could initialize this with other values, but let's keep it simple for now.
     function Election () {
-        value = "Hello, world!";
+        // Refactor This?
+        candidatesCount ++;
+        candidates[candidatesCount] = Candidate(candidatesCount, "Candidate 1", 0);
+        candidatesCount ++;
+        candidates[candidatesCount] = Candidate(candidatesCount, "Candidate 2", 0);
     }
 
-
-    function Vote (uint _candidateIndex) public payable {
+    function vote (uint _candidateIndex) public {
         // require that they haven't voted before
-        // require a valid candidate
+        // require a valid candidate; make sure the name isn't empty string?
+        // 
+        // Do this with a mapping
 
         // mark voted true
 
@@ -36,5 +40,4 @@ contract Election {
 
         // trigger voted event
     }
-
 }
