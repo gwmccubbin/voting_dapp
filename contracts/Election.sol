@@ -7,15 +7,12 @@ contract Election {
         uint voteCount;
     }
 
-    // Ugh, do a candidates struct, and give it an ID...
-
-
     // Keeps track that an address voted
     mapping(address => bool) voters;
-    // Gives us access to the candidates's index publicly
-    // You must keep track of a candidates count;
-    uint public candidatesCount;
+    // Keeps track of candidates
     mapping(uint => Candidate) public candidates;
+    // Keeps track of candidates to compare ids
+    uint public candidatesCount;
 
     // voted event
 
@@ -31,8 +28,7 @@ contract Election {
     function vote (uint _candidateIndex) public {
         // require that they haven't voted before
         // require a valid candidate; make sure the name isn't empty string?
-        // 
-        // Do this with a mapping
+        // Compare candidate index with candidate id here;
 
         // mark voted true
 

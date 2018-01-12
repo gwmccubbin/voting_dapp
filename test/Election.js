@@ -17,4 +17,13 @@ contract("Election", function(accounts) {
             assert.equal(count, 2);
         });
     });
+
+    it("it initializes with correct candidate names", function() {
+        return Election.deployed().then(function(instance) {
+            return instance;
+        }).then(function(instance) {
+            assert.equal(instance.candidates(1), "Candidate 1");
+            assert.equal(instance.candidates(2), "Candidate 2");
+        });
+    });
 });
