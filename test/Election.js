@@ -18,12 +18,12 @@ contract("Election", function(accounts) {
         });
     });
 
-    it("it initializes with correct candidate names", function() {
+    it("it initializes with correct candidate name", function() {
         return Election.deployed().then(function(instance) {
-            return instance;
-        }).then(function(instance) {
-            assert.equal(instance.candidates(1), "Candidate 1");
-            assert.equal(instance.candidates(2), "Candidate 2");
+            // For some reason I can't just pass in the instance here...
+            return instance.candidates(1);
+        }).then(function(candidate) {
+            assert.equal(candidate[1], "Candidate 1");
         });
     });
 });

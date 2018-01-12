@@ -1,4 +1,4 @@
-pragma solidity ^0.4.2;
+pragma solidity ^0.4.11;
 
 contract Election {
     struct Candidate {
@@ -12,6 +12,7 @@ contract Election {
     // Keeps track of candidates
     mapping(uint => Candidate) public candidates;
     // Keeps track of candidates to compare ids
+    // Gives us access to `candidatesCount()`
     uint public candidatesCount;
 
     // voted event
