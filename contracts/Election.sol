@@ -12,18 +12,19 @@ contract Election {
     // Keeps track of candidates
     mapping(uint => Candidate) public candidates;
     // Keeps track of candidates to compare ids
-    // Gives us access to `candidatesCount()`
     uint public candidatesCount;
 
     // voted event
 
     // We could initialize this with other values, but let's keep it simple for now.
     function Election () {
-        // Refactor This?
+        addCandidate("Candidate 1");
+        addCandidate("Candidate 2");
+    }
+
+    function addCandidate (string _name) {
         candidatesCount ++;
-        candidates[candidatesCount] = Candidate(candidatesCount, "Candidate 1", 0);
-        candidatesCount ++;
-        candidates[candidatesCount] = Candidate(candidatesCount, "Candidate 2", 0);
+        candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
     }
 
     function vote (uint _candidateIndex) public {

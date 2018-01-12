@@ -1,6 +1,8 @@
 var Election = artifacts.require("./Election.sol");
 
 contract("Election", function(accounts) {
+    var electionInstance;
+
     // Smoke test
     it("initializes with an address", function() {
         return Election.deployed().then(function(instance) {
@@ -18,12 +20,17 @@ contract("Election", function(accounts) {
         });
     });
 
-    it("it initializes with correct candidate name", function() {
+    it("it initializes the candidates with the correct values", function() {
         return Election.deployed().then(function(instance) {
             // For some reason I can't just pass in the instance here...
-            return instance.candidates(1);
+            electionInstance = instance;
+            return electionInstance.candidates(1);
         }).then(function(candidate) {
             assert.equal(candidate[1], "Candidate 1");
+
+            return electionInstance.candidates(2);
+        }).then(function(candidate) {
+            assert.equal(candidate[1], "Candidate 2");
         });
     });
 });
