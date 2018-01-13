@@ -1,7 +1,7 @@
 pragma solidity ^0.4.11;
 
 contract Election {
-    // Data structure; read values by index
+    // Struct
     struct Candidate {
         uint id;
         string name;
@@ -9,7 +9,7 @@ contract Election {
     }
 
     // Keeps track that an address voted
-    mapping(address => bool) public voters; // TODO: public for debugging
+    mapping(address => bool) voters; // TODO: public for debugging
     // Keeps track of candidates
     mapping(uint => Candidate) public candidates;
     // Keeps track of candidates to compare ids
@@ -17,29 +17,26 @@ contract Election {
 
     // voted event
 
-    // We could initialize this with other values, but let's keep it simple for now.
-    function Election () {
+    function Election () public {
         addCandidate("Candidate 1");
         addCandidate("Candidate 2");
     }
 
-    function addCandidate (string _name) {
+    function addCandidate (string _name) private {
         candidatesCount ++;
         candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
     }
 
     function vote (uint _candidateIndex) public {
-        // _hasVoted = voters(msg.sender);
-        // require(!voters[msg.sender]);
-        require(!voters[msg.sender]);
         // require that they haven't voted before
+        // msg.sender is the address that sent the transaction
+        require(!voters[msg.sender]);
 
-        // require a valid candidate; make sure the name isn't empty string?
-        // Compare candidate index with candidate id here;
+        // require a valid candidate
         require(_candidateIndex > 0 && _candidateIndex <= candidatesCount);
 
+        // record that candidate has voted
         voters[msg.sender] = true;
-        // mark voted true
 
         // update candidate vote counter
         candidates[_candidateIndex].voteCount ++;

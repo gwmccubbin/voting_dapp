@@ -85,7 +85,6 @@ contract("Election", function(accounts) {
             return electionInstance.candidates(1);
         }).then(function(candidate1) {
             var voteCount = candidate1[2];
-            console.log(voteCount.toNumber());
             assert.equal(voteCount, 1, "candidate 1 did not receive any votes");
             return electionInstance.candidates(2);
         }).then(function(candidate2) {
