@@ -36,6 +36,7 @@ contract Election {
         // mark voted true
 
         // update candidate vote counter
+        candidates[_candidateIndex].voteCount ++;
 
         // trigger voted event
     }
