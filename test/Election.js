@@ -73,4 +73,31 @@ contract("Election", function(accounts) {
         });
     });
 
+    it("throws an exception when an address tries to vote twice", function() {
+        return Election.deployed().then(function(instance) {
+            electionInstance = instance;
+            electionInstance.vote(2, { sender: accounts[2] });
+            return electionInstance.candidates(2);
+        }).then(function(candidate2) {
+            var voteCount = candidate2[2];
+            assert.equal(voteCount, 1, "vote counted for first attempt");
+
+            // Try to vote again
+            return electionInstance.vote(2, { sender: accounts[2] });
+        }).then(assert.fail).catch(function(error) {
+            assert(error.message.indexOf('revert') >= 0, "error message must contain invalid opcode");
+
+            return electionInstance.candidates(1)
+        }).then(function(candidate1) {
+            var voteCount = candidate1[2];
+            console.log(voteCount.toNumber());
+            assert.equal(voteCount, 1, "candidate 1 did not receive any votes");
+
+            return electionInstance.candidates(2);
+        }).then(function(candidate2) {
+            var voteCount = candidate2[2];
+            assert.equal(voteCount, 1, "candidate 2 did not receive any votes");
+        });
+    });
+
 });
