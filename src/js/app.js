@@ -54,9 +54,7 @@ App = {
       candidatesList.empty();
 
       for (var i = 1; i <= candidatesCount; i++) {
-        console.log("ITERATING", i);
         electionInstance.candidates(i).then(function(candidate) {
-          console.log("CANDIDATE NAME", candidate[1]);
           App.renderCandidate(
             candidate[0], // id
             candidate[1], // name
@@ -66,13 +64,11 @@ App = {
       }
       App.loading = false;
     }).catch(function(error) {
-      console.log(error.message);
       App.loading = false;
     });
   },
 
   renderCandidate: function(id, name, voteCount) {
-    console.log("rendering candidate", id, name, voteCount)
     // Fetch candidate list
     var candidatesList = $('#candidatesList');
 
