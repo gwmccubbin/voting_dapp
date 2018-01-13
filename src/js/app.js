@@ -59,7 +59,7 @@ App = {
           App.renderCandidate(
             candidate[0], // id
             candidate[1], // name
-            candidate[2].toNumber(), // voteCount
+            candidate[2], // voteCount
           );
           // Add candidate selections
           App.renderOption(
