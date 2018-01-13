@@ -59,9 +59,19 @@ contract("Election", function(accounts) {
             electionInstance = instance;
             return electionInstance.vote(99)
         }).then(assert.fail).catch(function(error) {
-        console.log("ERROR MESSAGE", error)
-        assert(error.message.indexOf('revert') >= 0, "error message must contain invalid opcode");
-      })
+            assert(error.message.indexOf('revert') >= 0, "error message must contain invalid opcode");
+
+            return electionInstance.candidates(1)
+        }).then(function(candidate1) {
+            var voteCount = candidate1[2];
+            console.log(voteCount.toNumber())
+            assert.equal(voteCount, 1, "candidate 1 did not receive any votes");
+
+            return electionInstance.candidates(2)
+        }).then(function(candidate2) {
+            var voteCount = candidate2[2];
+            assert.equal(voteCount, 0, "candidate 2 did not receive any votes");
+        });;
     });
 
     // it("throws an exception when an account votes twice", function() {
