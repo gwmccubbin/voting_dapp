@@ -20,8 +20,6 @@ App = {
       web3 = new Web3(App.web3Provider);
     }
 
-    App.renderAccount();
-
     return App.initContract();
   },
 
@@ -33,9 +31,13 @@ App = {
       // Connect provider to interact with contract
       App.contracts.Election.setProvider(App.web3Provider);
 
-      // Render layout here
-      return App.renderCandidates();
+      return App.render()
     });
+  },
+
+  render: function() {
+    App.renderAccount();
+    App.renderCandidates();
   },
 
   renderCandidates: function() {
