@@ -9,7 +9,7 @@ contract Election {
     }
 
     // Keeps track that an address voted
-    mapping(address => bool) voters;
+    mapping(address => bool) public voters; // TODO: public for debugging
     // Keeps track of candidates
     mapping(uint => Candidate) public candidates;
     // Keeps track of candidates to compare ids
@@ -29,7 +29,9 @@ contract Election {
     }
 
     function vote (uint _candidateIndex) public {
-        require(voters[msg.sender] != true);
+        // _hasVoted = voters(msg.sender);
+        // require(!voters[msg.sender]);
+        require(!voters[msg.sender]);
         // require that they haven't voted before
 
         // require a valid candidate; make sure the name isn't empty string?
