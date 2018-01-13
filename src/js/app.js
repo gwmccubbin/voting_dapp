@@ -88,13 +88,12 @@ App = {
       loader.hide();
       content.show();
     }).catch(function(error) {
-      // Handle error here...
+      console.warn(error);
     });
   },
 
   castVote: function() {
     var candidateId = $('#candidatesSelect').val();
-    console.log("Voting for candidate...", candidateId);
 
     App.contracts.Election.deployed().then(function(instance) {
       return instance.vote(candidateId, {
@@ -102,7 +101,9 @@ App = {
         gas: 500000 // Gas limit
       });
     }).then(function(result) {
-      // Do nothing
+      $("#content").hide();
+      $("#loader").show();
+      // Wait for votes to update
     }).catch(function(err) {
       console.error(err);
     });
