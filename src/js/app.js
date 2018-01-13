@@ -55,10 +55,16 @@ App = {
 
       for (var i = 1; i <= candidatesCount; i++) {
         electionInstance.candidates(i).then(function(candidate) {
+          // Display candiate Results
           App.renderCandidate(
             candidate[0], // id
             candidate[1], // name
             candidate[2], // voteCount
+          );
+          // Add candidate selections
+          App.renderOption(
+            candidate[0], // id
+            candidate[1]  // name
           );
         });
       }
@@ -77,6 +83,17 @@ App = {
 
     // Add candidate to the list
     candidatesList.append(candidateTemplate);
+  },
+
+  renderOption: function(id, name) {
+    // Fetch candidate list
+    var candidatesSelect = $('#candidatesSelect');
+
+    // Create a candidate option
+    var candidateOption = "<option value='" + id + "' >" + name + "</ option>"
+
+    // Add candidate selection
+    candidatesSelect.append(candidateOption);
   },
 
   renderAccount: function() {
