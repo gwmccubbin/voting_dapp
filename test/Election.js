@@ -93,7 +93,10 @@ contract("Election", function(accounts) {
             assert.equal(voteCount, 1, "candidate 1 did not receive any votes");
 
             return electionInstance.candidates(2);
-        })
+        }).then(function(candidate2) {
+            var voteCount = candidate2[2];
+            assert.equal(voteCount, 1, "candidate 2 did not receive any votes");
+        });
     });
 
 });
