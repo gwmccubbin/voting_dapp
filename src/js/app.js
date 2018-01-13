@@ -20,7 +20,6 @@ App = {
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
       web3 = new Web3(App.web3Provider);
     }
-
     return App.initContract();
   },
 
@@ -28,23 +27,24 @@ App = {
     $.getJSON("Election.json", function(election) {
       // Instantiate a new truffle contract from the artifact
       App.contracts.Election = TruffleContract(election);
-
       // Connect provider to interact with contract
       App.contracts.Election.setProvider(App.web3Provider);
-
-      App.listenToEvents();
-
+      App.listenForEvents();
       return App.render()
     });
   },
 
   // Listen for events emitted from the contract
-  listenToEvents: function() {
+  listenForEvents: function() {
     App.contracts.Election.deployed().then(function(instance) {
+      // Restart Chrome if you are unable to receive this event
+      // This is a known issue with Metamask
+      // https://github.com/MetaMask/metamask-extension/issues/2393
       instance.votedEvent({}, {
         fromBlock: 0,
         toBlock: 'latest'
       }).watch(function(error, event) {
+        console.log("event triggered", event)
         // Reload when a new vote is recorded
         App.render();
       });
@@ -109,7 +109,6 @@ App = {
 
   castVote: function() {
     var candidateId = $('#candidatesSelect').val();
-
     App.contracts.Election.deployed().then(function(instance) {
       return instance.vote(candidateId, {
         from: App.account,
