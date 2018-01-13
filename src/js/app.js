@@ -81,11 +81,20 @@ App = {
 
   renderCandidatesBallot: function() {
     var electionInstance;
+    var hasVoted;
 
     App.contracts.Election.deployed().then(function(instance) {
       electionInstance = instance;
+      return instance.voters(App.account);
+    }).then(function(voted) {
+      console.log("Has Voted", voted)
+      hasVoted = voted;
+      if(hasVoted) {
+        throw new Error('Candidate has already voted');
+      }
       return electionInstance.candidatesCount();
     }).then(function(candidatesCount) {
+      // Don't render the form if account has voted
       var candidatesSelect = $('#candidatesSelect');
       candidatesSelect.empty();
 
@@ -100,7 +109,7 @@ App = {
       }
       App.loading = false;
     }).catch(function(error) {
-      App.loading = false;
+      console.log(error.message);
     });
   },
 
