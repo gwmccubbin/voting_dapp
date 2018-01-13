@@ -1,64 +1,49 @@
 App = {
   web3Provider: null,
   contracts: {},
+  account: '0x0',
 
   init: function() {
-    // Load pets.
-    $.getJSON('../pets.json', function(data) {
-      var petsRow = $('#petsRow');
-      var petTemplate = $('#petTemplate');
-
-      for (i = 0; i < data.length; i ++) {
-        petTemplate.find('.panel-title').text(data[i].name);
-        petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-age').text(data[i].age);
-        petTemplate.find('.pet-location').text(data[i].location);
-        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
-
-        petsRow.append(petTemplate.html());
-      }
-    });
-
     return App.initWeb3();
   },
 
   initWeb3: function() {
-    /*
-     * Replace me...
-     */
-
+    // TODO: refactor conditional
+    if (typeof web3 !== 'undefined') {
+      // If a web3 instance is already provided by Meta Mask.
+      App.web3Provider = web3.currentProvider;
+      web3 = new Web3(web3.currentProvider);
+    } else {
+      // Specify default instance if no web3 instance provided
+      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
+      web3 = new Web3(App.web3Provider);
+    }
+    App.displayAccountDetails();
     return App.initContract();
   },
 
+  displayAccountDetails: function() {
+    // Get the main account on node we're connected to
+    web3.eth.getCoinbase(function(err, account) {
+      if (err === null) {
+        App.account = account;
+        $("#accountAddress").html(account);
+      }
+    });
+  },
+
   initContract: function() {
-    /*
-     * Replace me...
-     */
+    $.getJSON("Election.json", function(election) {
+      // Instantiate a new truffle contract from the artifact
+      App.contracts.Election = TruffleContract(election);
 
-    return App.bindEvents();
-  },
+      // Connect provider to interact with contract
+      App.contracts.Election.setProvider(App.web3Provider);
 
-  bindEvents: function() {
-    $(document).on('click', '.btn-adopt', App.handleAdopt);
-  },
-
-  markAdopted: function(adopters, account) {
-    /*
-     * Replace me...
-     */
-  },
-
-  handleAdopt: function(event) {
-    event.preventDefault();
-
-    var petId = parseInt($(event.target).data('id'));
-
-    /*
-     * Replace me...
-     */
+      // Render layout here
+      return App.renderContent();
+    });
   }
-
 };
 
 $(function() {
