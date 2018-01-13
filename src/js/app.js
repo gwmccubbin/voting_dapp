@@ -36,37 +36,28 @@ App = {
   },
 
   render: function() {
+    App.renderCandidatesResults();
+    App.renderCandidatesBallot();
     App.renderAccount();
-    App.renderCandidates();
   },
 
-  renderCandidates: function() {
-    if (App.loading) {
-      return;
-    }
-    App.loading = true;
-
+  renderCandidatesResults: function() {
     var electionInstance;
 
     App.contracts.Election.deployed().then(function(instance) {
       electionInstance = instance;
       return electionInstance.candidatesCount();
     }).then(function(candidatesCount) {
-      var candidatesList = $('#candidatesList');
-      candidatesList.empty();
+      var candidatesResults = $('#candidatesResults');
+      candidatesResults.empty();
 
       for (var i = 1; i <= candidatesCount; i++) {
         electionInstance.candidates(i).then(function(candidate) {
-          // Display candiate Results
-          App.renderCandidate(
+          // Display candiate results in table
+          App.renderCandidateResult(
             candidate[0], // id
             candidate[1], // name
             candidate[2], // voteCount
-          );
-          // Add candidate selections
-          App.renderOption(
-            candidate[0], // id
-            candidate[1]  // name
           );
         });
       }
@@ -76,19 +67,44 @@ App = {
     });
   },
 
-  renderCandidate: function(id, name, voteCount) {
+  renderCandidateResult: function(id, name, voteCount) {
     console.log(id, name, voteCount)
     // Fetch candidate list
-    var candidatesList = $('#candidatesList');
+    var candidatesResults = $('#candidatesResults');
 
     // Fetch candidate template & fill it in
     var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td><tr>"
 
     // Add candidate to the list
-    candidatesList.append(candidateTemplate);
+    candidatesResults.append(candidateTemplate);
   },
 
-  renderOption: function(id, name) {
+  renderCandidatesBallot: function() {
+    var electionInstance;
+
+    App.contracts.Election.deployed().then(function(instance) {
+      electionInstance = instance;
+      return electionInstance.candidatesCount();
+    }).then(function(candidatesCount) {
+      var candidatesSelect = $('#candidatesSelect');
+      candidatesSelect.empty();
+
+      for (var i = 1; i <= candidatesCount; i++) {
+        electionInstance.candidates(i).then(function(candidate) {
+          // Display candidate options in select
+          App.renderCandidateOption(
+            candidate[0], // id
+            candidate[1], // name
+          );
+        });
+      }
+      App.loading = false;
+    }).catch(function(error) {
+      App.loading = false;
+    });
+  },
+
+  renderCandidateOption: function(id, name) {
     // Fetch candidate list
     var candidatesSelect = $('#candidatesSelect');
 
