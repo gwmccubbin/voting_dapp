@@ -59,7 +59,7 @@ App = {
           App.renderCandidate(
             candidate[0], // id
             candidate[1], // name
-            candidate[2], // voteCount
+            candidate[2].toNumber(), // voteCount
           );
           // Add candidate selections
           App.renderOption(
@@ -75,6 +75,7 @@ App = {
   },
 
   renderCandidate: function(id, name, voteCount) {
+    console.log(id, name, voteCount)
     // Fetch candidate list
     var candidatesList = $('#candidatesList');
 
@@ -103,6 +104,22 @@ App = {
         App.account = account;
         $("#accountAddress").html("Your Account: " + account);
       }
+    });
+  },
+
+  castVote: function() {
+    var candidateId = $('#candidatesSelect').val();
+    console.log("Voting for candidate...", candidateId);
+
+    App.contracts.Election.deployed().then(function(instance) {
+      return instance.vote(candidateId, {
+        from: App.account,
+        gas: 500000 // Gas limit
+      });
+    }).then(function(result) {
+      // Do nothing
+    }).catch(function(err) {
+      console.error(err);
     });
   }
 };
