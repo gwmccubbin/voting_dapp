@@ -79,6 +79,13 @@ contract("Election", function(accounts) {
             candidateId = 2;
             electionInstance.vote(candidateId, { from: accounts[1] });
             return electionInstance.candidates(candidateId);
+        }).then(function(candidate) {
+            var voteCount = candidate[2];
+            assert.equal(voteCount, 1, "accepts first vote");
+            // Try to vote again
+            return electionInstance.vote(candidateId, { from: accounts[1] });
+        }).then(assert.fail).catch(function(error) {
+            assert(error.message.indexOf('revert') >= 0, "error message must contain revert");
         })
     });
 
