@@ -18,17 +18,53 @@
     <![endif]-->
   </head>
   <body>
-    <div class="container">
+    <div class="container" style="width: 650px;">
       <div class="row">
-        <div class="col-xs-12 col-sm-8 col-sm-push-2">
-          <h1 class="text-center">Pete's Pet Shop</h1>
+        <div class="col-lg-12">
+          <h1 class="text-center">Election Results</h1>
           <hr/>
           <br/>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Votes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>0</td>
+              </tr>
+            </tbody>
+          </table>
+          <hr/>
+          <br/>
+          <form>
+            <div class="form-group">
+              <label for="candidateSelect">Select Candidate</label>
+              <select class="form-control" id="candidateSelect">
+                <option>1</option>
+                <option>2</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Vote</button>
+          </form>
+          <hr/>
+          <p>Your account: <span id="accountAddress">abc123456is322383483flk</span></p>
         </div>
-      </div>
-
-      <div id="petsRow" class="row">
-        <!-- PETS LOAD HERE -->
       </div>
     </div>
 
