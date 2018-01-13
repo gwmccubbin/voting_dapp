@@ -24,14 +24,12 @@ contract("Election", function(accounts) {
 
     it("it initializes the candidates with the correct values", function() {
         return Election.deployed().then(function(instance) {
-            // For some reason I can't just pass in the instance here...
             electionInstance = instance;
             return electionInstance.candidates(1);
         }).then(function(candidate) {
             assert.equal(candidate[0], 1, "contains the correct id");
             assert.equal(candidate[1], "Candidate 1", "contains the correct name");
             assert.equal(candidate[2], 0, "contains the correct votes count");
-
             return electionInstance.candidates(2);
         }).then(function(candidate) {
             assert.equal(candidate[0], 2, "contains the correct id");
@@ -60,12 +58,10 @@ contract("Election", function(accounts) {
             return electionInstance.vote(99, { sender: accounts[1] })
         }).then(assert.fail).catch(function(error) {
             assert(error.message.indexOf('revert') >= 0, "error message must contain revert");
-
             return electionInstance.candidates(1)
         }).then(function(candidate1) {
             var voteCount = candidate1[2];
             assert.equal(voteCount, 1, "candidate 1 did not receive any votes");
-
             return electionInstance.candidates(2);
         }).then(function(candidate2) {
             var voteCount = candidate2[2];
@@ -91,12 +87,10 @@ contract("Election", function(accounts) {
             var voteCount = candidate1[2];
             console.log(voteCount.toNumber());
             assert.equal(voteCount, 1, "candidate 1 did not receive any votes");
-
             return electionInstance.candidates(2);
         }).then(function(candidate2) {
             var voteCount = candidate2[2];
             assert.equal(voteCount, 1, "candidate 2 did not receive any votes");
         });
     });
-
 });
