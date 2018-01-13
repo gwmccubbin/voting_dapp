@@ -24,28 +24,52 @@
           <h1 class="text-center">Election Results</h1>
           <hr/>
           <br/>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Votes</th>
-              </tr>
-            </thead>
-            <tbody id="candidatesResults">
-            </tbody>
-          </table>
-          <hr/>
-          <form id="candidatesBallot" onSubmit="App.castVote(); return false;">
-            <div class="form-group">
-              <label for="candidatesSelect">Select Candidate</label>
-              <select class="form-control" id="candidatesSelect">
-              </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Vote</button>
-          </form>
-          <hr/>
-          <p id="accountAddress" class="text-center"></p>
+          <div id="loader">
+            <p class="text-center">Loading...</p>
+          </div>
+          <div id="content" style="display: none;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Votes</th>
+                </tr>
+              </thead>
+              <tbody id="candidatesResults">
+              </tbody>
+            </table>
+            <hr/>
+            <form onSubmit="App.castVote(); return false;">
+              <div class="form-group">
+                <label for="candidatesSelect">Select Candidate</label>
+                <select class="form-control" id="candidatesSelect">
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Vote</button>
+              <hr />
+            </form>
+            <p id="accountAddress" class="text-center"></p>
+          </div>
+
+
+
+<!--           <div id="contentTemplate" style="display: none;">
+            <table id="candidatesTable">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Votes</th>
+                </tr>
+              </thead>
+              <tbody id="candidatesResults">
+              </tbody>
+            </table>
+            <hr/>
+
+            <hr/>
+          </div> -->
         </div>
       </div>
     </div>
