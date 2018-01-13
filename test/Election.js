@@ -53,4 +53,23 @@ contract("Election", function(accounts) {
             assert.equal(voteCount, 1, "increments the candidate's vote count");
         })
     });
+
+    it("throws an exception for invalid candiates", function() {
+        return Election.deployed().then(function(instance) {
+            electionInstance = instance;
+            return electionInstance.vote(99)
+        }).then(assert.fail).catch(function(error) {
+        console.log("ERROR MESSAGE", error)
+        assert(error.message.indexOf('revert') >= 0, "error message must contain invalid opcode");
+      })
+    });
+
+    // it("throws an exception when an account votes twice", function() {
+    //     return Election.deployed().then(function(instance) {
+    //         electionInstance = instance;
+    //     }).then(function() {
+    //         // assert.equal(, , "");
+    //     })
+    // });
+
 });
