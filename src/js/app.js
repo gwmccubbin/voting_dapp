@@ -101,9 +101,9 @@ App = {
         gas: 500000 // Gas limit
       });
     }).then(function(result) {
+      // Wait for votes to update
       $("#content").hide();
       $("#loader").show();
-      // Wait for votes to update
     }).catch(function(err) {
       console.error(err);
     });
