@@ -59,7 +59,7 @@ contract("Election", function(accounts) {
             electionInstance = instance;
             return electionInstance.vote(99, { sender: accounts[1] })
         }).then(assert.fail).catch(function(error) {
-            assert(error.message.indexOf('revert') >= 0, "error message must contain invalid opcode");
+            assert(error.message.indexOf('revert') >= 0, "error message must contain revert");
 
             return electionInstance.candidates(1)
         }).then(function(candidate1) {
@@ -85,7 +85,7 @@ contract("Election", function(accounts) {
             // Try to vote again
             return electionInstance.vote(candidateId, { from: accounts[1] });
         }).then(assert.fail).catch(function(error) {
-            assert(error.message.indexOf('revert') >= 0, "error message must contain invalid opcode");
+            assert(error.message.indexOf('revert') >= 0, "error message must contain revert");
             return electionInstance.candidates(1);
         }).then(function(candidate1) {
             var voteCount = candidate1[2];
