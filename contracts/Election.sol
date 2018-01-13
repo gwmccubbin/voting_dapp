@@ -29,12 +29,14 @@ contract Election {
     }
 
     function vote (uint _candidateIndex) public {
+        require(voters[msg.sender] != true);
         // require that they haven't voted before
 
         // require a valid candidate; make sure the name isn't empty string?
         // Compare candidate index with candidate id here;
         require(_candidateIndex > 0 && _candidateIndex <= candidatesCount);
 
+        voters[msg.sender] = true;
         // mark voted true
 
         // update candidate vote counter
