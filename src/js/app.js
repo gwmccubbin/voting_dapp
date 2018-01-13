@@ -2,6 +2,7 @@ App = {
   web3Provider: null,
   contracts: {},
   account: '0x0',
+  loading: false,
 
   init: function() {
     return App.initWeb3();
@@ -18,18 +19,10 @@ App = {
       App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
       web3 = new Web3(App.web3Provider);
     }
-    App.displayAccountDetails();
-    return App.initContract();
-  },
 
-  displayAccountDetails: function() {
-    // Get the main account on node we're connected to
-    web3.eth.getCoinbase(function(err, account) {
-      if (err === null) {
-        App.account = account;
-        $("#accountAddress").html(account);
-      }
-    });
+    App.renderAccount();
+
+    return App.initContract();
   },
 
   initContract: function() {
@@ -41,7 +34,62 @@ App = {
       App.contracts.Election.setProvider(App.web3Provider);
 
       // Render layout here
-      return App.renderContent();
+      return App.renderCandidates();
+    });
+  },
+
+  renderCandidates: function() {
+    if (App.loading) {
+      return;
+    }
+    App.loading = true;
+
+    var electionInstance;
+
+    App.contracts.Election.deployed().then(function(instance) {
+      electionInstance = instance;
+      return electionInstance.candidatesCount();
+    }).then(function(candidatesCount) {
+      var candidatesList = $('#candidatesList');
+      candidatesList.empty();
+
+      for (var i = 1; i <= candidatesCount; i++) {
+        console.log("ITERATING", i);
+        electionInstance.candidates(i).then(function(candidate) {
+          console.log("CANDIDATE NAME", candidate[1]);
+          App.renderCandidate(
+            candidate[0], // id
+            candidate[1], // name
+            candidate[2], // voteCount
+          );
+        });
+      }
+      App.loading = false;
+    }).catch(function(error) {
+      console.log(error.message);
+      App.loading = false;
+    });
+  },
+
+  renderCandidate: function(id, name, voteCount) {
+    console.log("rendering candidate", id, name, voteCount)
+    // Fetch candidate list
+    var candidatesList = $('#candidatesList');
+
+    // Fetch candidate template & fill it in
+    var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + voteCount + "</td><tr>"
+
+    // Add candidate to the list
+    candidatesList.append(candidateTemplate);
+  },
+
+  renderAccount: function() {
+    // Get the main account on node we're connected to
+    web3.eth.getCoinbase(function(err, account) {
+      if (err === null) {
+        App.account = account;
+        $("#accountAddress").html("Your Account: " + account);
+      }
     });
   }
 };
