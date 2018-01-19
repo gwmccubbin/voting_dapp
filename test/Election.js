@@ -27,14 +27,12 @@ contract("Election", function(accounts) {
             electionInstance = instance;
             return electionInstance.candidates(1);
         }).then(function(candidate) {
-            assert.equal(candidate[0], 1, "contains the correct id");
-            assert.equal(candidate[1], "Candidate 1", "contains the correct name");
-            assert.equal(candidate[2], 0, "contains the correct votes count");
+            assert.equal(candidate[0], "Candidate 1", "contains the correct name");
+            assert.equal(candidate[1], 0, "contains the correct votes count");
             return electionInstance.candidates(2);
         }).then(function(candidate) {
-            assert.equal(candidate[0], 2, "contains the correct id");
-            assert.equal(candidate[1], "Candidate 2", "contains the correct name");
-            assert.equal(candidate[2], 0, "contains the correct votes count");
+            assert.equal(candidate[0], "Candidate 2", "contains the correct name");
+            assert.equal(candidate[1], 0, "contains the correct votes count");
         });
     });
 
@@ -52,7 +50,7 @@ contract("Election", function(accounts) {
             assert(voted, "the voter was marked as voted");
             return electionInstance.candidates(1);
         }).then(function(candidate) {
-            var voteCount = candidate[2];
+            var voteCount = candidate[1];
             assert.equal(voteCount, 1, "increments the candidate's vote count");
         })
     });
@@ -65,11 +63,11 @@ contract("Election", function(accounts) {
             assert(error.message.indexOf('revert') >= 0, "error message must contain revert");
             return electionInstance.candidates(1)
         }).then(function(candidate1) {
-            var voteCount = candidate1[2];
+            var voteCount = candidate1[1];
             assert.equal(voteCount, 1, "candidate 1 did not receive any votes");
             return electionInstance.candidates(2);
         }).then(function(candidate2) {
-            var voteCount = candidate2[2];
+            var voteCount = candidate2[1];
             assert.equal(voteCount, 0, "candidate 2 did not receive any votes");
         });
     });
@@ -81,7 +79,7 @@ contract("Election", function(accounts) {
             electionInstance.vote(candidateId, { from: accounts[1] });
             return electionInstance.candidates(candidateId);
         }).then(function(candidate) {
-            var voteCount = candidate[2];
+            var voteCount = candidate[1];
             assert.equal(voteCount, 1, "accepts first vote");
             // Try to vote again
             return electionInstance.vote(candidateId, { from: accounts[1] });
@@ -89,11 +87,11 @@ contract("Election", function(accounts) {
             assert(error.message.indexOf('revert') >= 0, "error message must contain revert");
             return electionInstance.candidates(1);
         }).then(function(candidate1) {
-            var voteCount = candidate1[2];
+            var voteCount = candidate1[1];
             assert.equal(voteCount, 1, "candidate 1 did not receive any votes");
             return electionInstance.candidates(2);
         }).then(function(candidate2) {
-            var voteCount = candidate2[2];
+            var voteCount = candidate2[1];
             assert.equal(voteCount, 1, "candidate 2 did not receive any votes");
         });
     });
