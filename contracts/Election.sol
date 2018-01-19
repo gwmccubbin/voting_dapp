@@ -3,6 +3,7 @@ pragma solidity ^0.4.11;
 contract Election {
     // Struct
     struct Candidate {
+        uint id;
         string name;
         uint voteCount;
     }
@@ -26,7 +27,7 @@ contract Election {
 
     function addCandidate (string _name) private {
         candidatesCount ++;
-        candidates[candidatesCount] = Candidate(_name, 0);
+        candidates[candidatesCount] = Candidate(candidatesCount, _name, 0);
     }
 
     function vote (uint _candidateId) public {

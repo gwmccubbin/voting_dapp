@@ -929,7 +929,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 167,
+                              "referencedDeclaration": 110,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -991,7 +991,7 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 164,
+                                          "referencedDeclaration": 107,
                                           "type": "msg",
                                           "value": "msg"
                                         },
@@ -1052,7 +1052,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 167,
+                              "referencedDeclaration": 110,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -1244,7 +1244,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 164,
+                                      "referencedDeclaration": 107,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -1461,9 +1461,9 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x345ca3e014aaf5dca488057592ee47305d9b3e10"
+      "address": "0xf491289b5da695d7892b4960dcf48eb7e1acb6b8"
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-01-14T23:11:06.575Z"
+  "updatedAt": "2018-01-13T21:28:55.161Z"
 }
